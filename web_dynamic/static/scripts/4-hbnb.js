@@ -22,15 +22,16 @@ $(document).ready(function () {
     }
   });
 
-  $.ajax({
-    type: 'POST',
-    url: 'http://0.0.0.0:5001/api/v1/places_search',
-    contentType: 'application/json',
-    data: JSON.stringify({ amenities: Object.keys(selectedAmenities) }),
-    success: function (data) {
-      $('.places').empty();
-      data.forEach(function (place) {
-        const placeHTML = `
+  $('button').click(function () {
+    $.ajax({
+      type: 'POST',
+      url: 'http://0.0.0.0:5001/api/v1/places_search',
+      contentType: 'application/json',
+      data: JSON.stringify({ amenities: Object.keys(selectedAmenities) }),
+      success: function (data) {
+        $('.places').empty();
+        data.forEach(function (place) {
+          const placeHTML = `
           <article>
             <div class="title_box">
               <h2>${place.name}</h2>
@@ -46,11 +47,12 @@ $(document).ready(function () {
             </div>
           </article>
         `;
-        $('.places').append(placeHTML);
-      });
-    },
-    error: function (error) {
-      console.error('Error fetching places:', error);
-    }
+          $('.places').append(placeHTML);
+        });
+      },
+      error: function (error) {
+        console.error('Error fetching places:', error);
+      }
+    });
   });
 });
