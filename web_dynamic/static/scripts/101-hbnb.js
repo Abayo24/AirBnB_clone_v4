@@ -75,4 +75,40 @@ $(document).ready(function () {
       }
     });
   });
+
+  /* Function to handle show/hide reviews */
+  $.get('http://0.0.0.0:5001/api/v1/reviews', function (data) {
+    // Assuming data is an array of review objects
+    data.forEach(function (review) {
+      // Construct HTML for each review
+      const reviewHTML = `
+        <li>
+          <h3>From ${review.author} the ${review.date}</h3>
+          <p>${review.content}</p>
+        </li>
+      `;
+
+      // Append review HTML to the reviews list
+      $('.reviews ul').append(reviewHTML);
+    });
+
+    // Show the reviews section if it's hidden
+    $('.reviews ul').show();
+  })
+    .fail(function (error) {
+      console.error('Error fetching reviews:', error);
+    });
+
+  // Event listener for the show/hide button
+  $('.reviews h2 span.show-hide').click(function () {
+    const reviewsList = $('.reviews ul');
+
+    if (reviewsList.is(':visible')) {
+      reviewsList.hide();
+      $(this).text('show');
+    } else {
+    // Fetch and display reviews
+      $(this).text('hide');
+    }
+  });
 });
